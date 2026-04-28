@@ -115,7 +115,15 @@ When enabled, the server will attempt to GET `/executions/:id` on the `BOLNA_API
 ```bash
 curl -X POST http://localhost:3000/webhook/bolna \
   -H 'Content-Type: application/json' \
-  -d '{"status":"completed","id":"exec_123","agent_id":"agent_456","duration":128,"transcript":"Hello, this is a sample transcript."}'
+  -d '{
+    "status": "completed",
+    "id": "exec_123",
+    "agent_id": "agent_456",
+    "transcript": "Hello, this is a sample transcript.",
+    "telephony_data": {
+      "duration": 42
+    }
+  }'
 ```
 
 ## Field mapping (Bolna -> Slack)
