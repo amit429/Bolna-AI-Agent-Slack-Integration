@@ -28,7 +28,7 @@ This service receives Bolna call-completed webhooks and posts a formatted summar
 
 ```bash
 cp .env.example .env
-# then edit .env and set SLACK_WEBHOOK_URL
+# then edit .env and set SLACK_WEBHOOK_URL and BOLNA_API_KEY
 ```
 
 2. Install dependencies:
