@@ -138,16 +138,13 @@ https://<your-ngrok-domain>/webhook/bolna
 
 If you deploy the service publicly, replace the ngrok domain with your hosted domain.
 
-## Bolna API (optional)
+## Bolna API URL(optional)
 
 If Bolna sends only a notification (for example only `status` and `id`) and does not include `transcript` or other details, this bridge can fetch execution details from Bolna's API before posting to Slack. To enable this, add the following to your `.env`:
 
 ```
 # Bolna API base URL
-BOLNA_API_URL=https://api.bolna.example
-
-# Bolna API key (used as Bearer token)
-BOLNA_API_KEY=your_api_key_here
+BOLNA_API_URL=https://api.bolna.ai
 ```
 
 When enabled, the server will attempt to GET `/executions/:id` on the `BOLNA_API_URL` and merge returned fields into the Slack message.
