@@ -17,6 +17,9 @@ This service receives Bolna call-completed webhooks and posts a formatted summar
 - [src/utils/bolna.utils.js](src/utils/bolna.utils.js)
 - [src/utils/retry.utils.js](src/utils/retry.utils.js)
 - [src/middleware/error.middleware.js](src/middleware/error.middleware.js)
+- [Dockerfile](Dockerfile)
+- [docker-compose.yml](docker-compose.yml)
+- [.dockerignore](.dockerignore)
 - [.gitignore](.gitignore)
 
 ## Setup
@@ -45,6 +48,44 @@ Or production:
 ```bash
 npm start
 ```
+
+## Docker Support
+
+You can run the bridge in Docker for a consistent local setup and easy deployment.
+
+### Build and run with Docker Compose
+
+1. Make sure your `.env` file exists and includes at least `SLACK_WEBHOOK_URL` and `BOLNA_API_KEY`.
+2. Build and start the container:
+
+```bash
+docker compose up --build
+```
+
+3. The service will be available on `http://localhost:3000`.
+
+### Stop the container
+
+```bash
+docker compose down
+```
+
+### What the Docker setup does
+
+- Uses `node:20-alpine` as a lightweight base image.
+- Installs only production dependencies inside the image.
+- Reads runtime config from `.env` via `env_file` in `docker-compose.yml`.
+- Exposes port `3000` so the webhook can receive Bolna requests.
+
+### Production note
+
+If you deploy this container to a server or platform, make sure the public URL points to:
+
+```text
+https://<your-host>/webhook/bolna
+```
+
+For local testing behind ngrok, point Bolna to your ngrok URL instead.
 
 ## Configure Bolna agent
 
