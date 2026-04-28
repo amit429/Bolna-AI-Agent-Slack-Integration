@@ -197,3 +197,7 @@ This ensures that temporary glitches or network hiccups don't result in lost mes
 3. This service validates the payload.
 4. If needed, the service fetches call details from Bolna API.
 5. A formatted Slack Block Kit message is posted to your Slack Incoming Webhook.
+
+## Demo Screenshot of Slack alert after the agent call
+<img width="1915" height="865" alt="Screenshot 2026-04-29 011336" src="https://github.com/user-attachments/assets/1513b537-a3b3-461a-ac87-4cb2037fb749" />
+
