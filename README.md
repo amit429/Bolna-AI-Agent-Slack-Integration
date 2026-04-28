@@ -45,6 +45,36 @@ Or production:
 npm start
 ```
 
+## Configure Bolna agent
+
+After the local server is running, configure your Bolna agent to send webhook events to this bridge.
+
+1. **Create or open an agent in Bolna**
+  - Sign in to your Bolna dashboard.
+  - Create a new agent or open an existing one that will handle calls.
+
+2. **Open the agent analytics / webhook settings**
+  - In the agent configuration, look for the analytics, integrations, or webhook section.
+  - Add the webhook URL for this service:
+
+```text
+https://<your-public-url>/webhook/bolna
+```
+
+  - If you are testing locally, use your ngrok forwarding URL.
+
+3. **Save the agent configuration**
+  - Ensure the webhook is enabled for completed call events.
+  - Confirm the payload includes `status: "completed"`.
+
+4. **Verify the payload format**
+  - The bridge expects:
+    - `id`
+    - `agent_id`
+    - `transcript` (if available)
+    - `telephony_data.duration`
+  - If `transcript` is missing, the bridge can fetch extra details from Bolna API when configured.
+
 ## Local testing with ngrok
 
 1. Start the server locally (default port 3000 or set `PORT` in `.env`).
@@ -55,6 +85,16 @@ ngrok http 3000
 ```
 
 3. Use the forwarded ngrok URL to set Bolna's webhook or test with curl.
+
+### Recommended webhook URL for Bolna
+
+When configuring the agent webhook, use this exact path:
+
+```text
+https://<your-ngrok-domain>/webhook/bolna
+```
+
+If you deploy the service publicly, replace the ngrok domain with your hosted domain.
 
 ## Bolna API (optional)
 
@@ -91,3 +131,11 @@ curl -X POST http://localhost:3000/webhook/bolna \
 - The endpoint only processes payloads with `status: "completed"`.
 - The server responds with `400` for malformed payloads and `200` for ignored (non-completed) events.
 - If webhook fields are incomplete, the bridge will attempt to fetch execution details from Bolna when `BOLNA_API_URL` and `BOLNA_API_KEY` are provided.
+
+## End-to-end flow
+
+1. A call completes in Bolna.
+2. Bolna sends a webhook to `/webhook/bolna`.
+3. This service validates the payload.
+4. If needed, the service fetches call details from Bolna API.
+5. A formatted Slack Block Kit message is posted to your Slack Incoming Webhook.

@@ -7,7 +7,9 @@ function extractBolnaFields(body) {
     return { ok: false, error: 'Status not completed' };
   }
 
-  const { id, agent_id, duration, transcript } = body;
+  const { id, agent_id, transcript } = body;
+  const telephonyData = body.telephony_data || {};
+  const duration = telephonyData?.duration;
 
   if (!id) {
     return { ok: false, error: 'Missing execution id' };
