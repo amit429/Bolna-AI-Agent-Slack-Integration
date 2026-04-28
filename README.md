@@ -15,6 +15,7 @@ This service receives Bolna call-completed webhooks and posts a formatted summar
 - [src/services/bolna.service.js](src/services/bolna.service.js)
 - [src/services/slack.service.js](src/services/slack.service.js)
 - [src/utils/bolna.utils.js](src/utils/bolna.utils.js)
+- [src/utils/retry.utils.js](src/utils/retry.utils.js)
 - [src/middleware/error.middleware.js](src/middleware/error.middleware.js)
 - [.gitignore](.gitignore)
 
@@ -132,6 +133,17 @@ curl -X POST http://localhost:3000/webhook/bolna \
 - **`agent_id`**: Agent identifier -> shown as *Agent ID*
 - **`duration`**: Conversation time (seconds) -> shown as *Duration*
 - **`transcript`**: Conversation transcript -> shown in the *Transcript* block (fallback text if missing)
+
+## Reliability & Retry Logic
+
+This bridge implements **automatic retry with exponential backoff** to handle transient failures gracefully:
+
+- **Bolna API calls**: Retry up to 3 times with delays of 1s, 2s, 4s (capped at 5s).
+- **Slack webhook delivery**: Retry up to 3 times with delays of 0.5s, 1s, 2s (capped at 3s).
+- **Retryable errors**: Network failures (timeouts, connection refused), 5xx server errors, 429 (rate limit).
+- **Non-retryable errors**: 4xx client errors (bad request, unauthorized, invalid webhook URL) are failed immediately.
+
+This ensures that temporary glitches or network hiccups don't result in lost messages.
 
 ## Security & Notes
 
