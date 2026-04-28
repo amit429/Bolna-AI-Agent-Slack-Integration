@@ -7,6 +7,15 @@ This service receives Bolna call-completed webhooks and posts a formatted summar
 - [package.json](package.json)
 - [.env.example](.env.example)
 - [src/index.js](src/index.js)
+- [src/server.js](src/server.js)
+- [src/app.js](src/app.js)
+- [src/config/environment.js](src/config/environment.js)
+- [src/routes/bolna.routes.js](src/routes/bolna.routes.js)
+- [src/controllers/bolna.controller.js](src/controllers/bolna.controller.js)
+- [src/services/bolna.service.js](src/services/bolna.service.js)
+- [src/services/slack.service.js](src/services/slack.service.js)
+- [src/utils/bolna.utils.js](src/utils/bolna.utils.js)
+- [src/middleware/error.middleware.js](src/middleware/error.middleware.js)
 - [.gitignore](.gitignore)
 
 ## Setup
@@ -81,4 +90,4 @@ curl -X POST http://localhost:3000/webhook/bolna \
 - No secrets are hard-coded. Use the `.env` file to set `SLACK_WEBHOOK_URL` and `PORT`.
 - The endpoint only processes payloads with `status: "completed"`.
 - The server responds with `400` for malformed payloads and `200` for ignored (non-completed) events.
- - If webhook fields are incomplete, the bridge will attempt to fetch execution details from Bolna when `BOLNA_API_URL` and `BOLNA_API_KEY` are provided.
+- If webhook fields are incomplete, the bridge will attempt to fetch execution details from Bolna when `BOLNA_API_URL` and `BOLNA_API_KEY` are provided.
